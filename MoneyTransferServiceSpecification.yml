@@ -4,7 +4,7 @@ info:
   description: Transfer Money API
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080/transfer'
+  - url: 'http://localhost:5050/transfer'
     description: local server
 paths:
   /transfer:
@@ -72,7 +72,7 @@ paths:
   /confirmOperation:
     post:
       summary: Confirm operation
-      description: Confirming operataion with code
+      description: Confirming operation with code
       requestBody:
         description: Confirm operation
         required: true
