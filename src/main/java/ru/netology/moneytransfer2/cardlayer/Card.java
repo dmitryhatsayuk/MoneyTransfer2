@@ -1,4 +1,4 @@
-package ru.netology.moneytransfer2;
+package ru.netology.moneytransfer2.cardlayer;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -21,15 +21,15 @@ public class Card {
      * @param cardValidTill - срок действия карты
      * @param cardCVV       - CVV-код карты
      * @param accounts      - валютные счета имеющиеся на карте
-     * @see CardList#addCard(Card)
+     * @see CardList#addCard(String, Card) addCard(Card)
      */
-    Card(String cardNumber, String cardValidTill, String cardCVV) {
+    public Card(String cardNumber, String cardValidTill, String cardCVV) {
         CardList cardList = new CardList();
         this.cardNumber = cardNumber;
         this.cardValidTill = cardValidTill;
         this.cardCVV = cardCVV;
         this.accounts = new ConcurrentHashMap<>();
-        cardList.addCard(this);
+        cardList.addCard(cardNumber,this);
     }
 
 
@@ -48,7 +48,7 @@ public class Card {
 //если такая валюта уже есть, то увеличиваем ее баланс
         else if (accounts.containsKey(currency)) {
             accounts.put(currency, accounts.get(currency) + amount);
-            log.info("FILL SUCCESS for {} {}", amount, currency);
+            log.info("FILL SUCCESS for {} {} for card {}", amount, currency, cardNumber);
             return true;
         }
 //если валюты нет, то создаем ее с балансом суммы пополнения

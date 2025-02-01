@@ -1,4 +1,4 @@
-package ru.netology.moneytransfer2;
+package ru.netology.moneytransfer2.cardlayer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package ru.netology.moneytransfer2;
+package ru.netology.moneytransfer2.transferlayer;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package ru.netology.moneytransfer2;
+package ru.netology.moneytransfer2.cardlayer;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,15 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Log4j2
 public class CardList {
-    private final ConcurrentHashMap<String, Card> cards = new ConcurrentHashMap<>();
+    protected final ConcurrentHashMap<String, Card> cards = new ConcurrentHashMap<>();
     private static volatile CardList instance;
 
     /**
-     * Метод-синглтон возвращающий список карт
+     * Метод возвращающий список карт
      *
      * @return - CardList возвращает список карт
      */
-    protected CardList getCardList() {
+    public CardList getCardList() {
         CardList localInstance = instance;
         if (localInstance == null) {
             synchronized (CardList.class) {
@@ -38,9 +38,10 @@ public class CardList {
      * @param card - объект типа Card
      * @see Card
      */
-    public void addCard(Card card) {
-        getCardList().cards.put(card.getCardNumber(), card);
-        log.info("Added card: " + card.getCardNumber());
+    protected void addCard(String cardNumber, Card card) {
+        CardList cardList = getCardList();
+        cardList.cards.put(cardNumber, card);
+        log.info("Added card: {}", cardNumber);
     }
 
     /**
@@ -51,10 +52,10 @@ public class CardList {
      */
     public boolean cardExists(String cardNumber) {
         if (getCardList().cards.containsKey(cardNumber)) {
-            log.info("card exist {}", getCardList().cards.containsKey(cardNumber));
+            log.info("Card {} exist", cardNumber);
             return true;
         } else {
-            log.error("Card NOT exist {}", getCardList().cards.containsKey(cardNumber));
+            log.error("Card {} NOT exist", cardNumber);
             return false;
         }
     }
@@ -69,10 +70,10 @@ public class CardList {
      */
     public boolean cardValid(String cardNumber, String cardValidTill, String cardCVV) {
         if (getCard(cardNumber).getCardCVV().equals(cardCVV) && getCard(cardNumber).getCardValidTill().equals(cardValidTill)) {
-            log.info("CARD VALID {}", getCard(cardNumber).getCardCVV().equals(cardCVV) && getCard(cardNumber).getCardValidTill().equals(cardValidTill));
+            log.info("CARD VALID {}", cardNumber);
             return true;
         } else {
-            log.error("Card not valid ");
+            log.error("Card {} not valid",cardNumber);
             return false;
         }
 
@@ -85,7 +86,7 @@ public class CardList {
      * @return Card - возвращает объект типа Card
      * @see Card
      */
-    Card getCard(String cardNumber) {
+    public Card getCard(String cardNumber) {
         return getCardList().cards.get(cardNumber);
     }
 
